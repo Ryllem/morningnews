@@ -14,7 +14,7 @@ function ScreenArticlesBySource() {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalIndex, setModalIndex] = useState(0);
-
+  console.log("%c RENDER", "color: red")
   const showModal = myIndex => {
     setIsModalVisible(true);
     setModalIndex(myIndex);
