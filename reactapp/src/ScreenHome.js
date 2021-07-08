@@ -29,8 +29,8 @@ function ScreenHome() {
     axios.post('/signin', signinUser)
       .then(res => {
         if (res.data.status === "OK") {
-          console.log("%c Binvenue", "color: green")
-          console.log(res.data)
+          // console.log("%c Binvenue", "color: green")
+          // console.log(res.data)
           setIsLogin(true);
           dispatch({
             type: "addInfo",

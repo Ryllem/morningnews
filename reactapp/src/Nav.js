@@ -13,15 +13,15 @@ function Nav() {
 
   let dispatch = useDispatch();
   const user = useSelector(state => state.user)
-  console.log('user:', user)
+  console.log('%c TOKEN:',"color: red", user.token)
 
   const setLanguage = langue => {
     if (user.token !== null) {
     axios.post('/setlanguage', {langue, token: user.token})
       .then(res => {
         if (res.data.status === "OK") {
-          console.log("%c Binvenue", "color: green")
-          console.log(res.data)
+          // console.log("%c Binvenue", "color: green")
+          // console.log(res.data)
           dispatch({
             type: "setLangue",
             payload: langue,

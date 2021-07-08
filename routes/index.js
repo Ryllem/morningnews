@@ -1,5 +1,4 @@
 var express = require('express');
-const { setMaxListeners } = require('../models/userModel');
 var router = express.Router();
 let bcrypt = require('bcrypt');
 const uid2 = require('uid2');
@@ -7,8 +6,6 @@ const uid2 = require('uid2');
 const cost = 10;
 
 const userModel = require('../models/userModel');
-// const languageModel = require('../models/languageModel');
-
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -30,11 +27,7 @@ router.post('/signin', async function(req, res, next) {
      res.json({status: "KO", message: "Aucun utilisateur trouvé"})
   }
 }
- 
-  
 
-  // if (user.length === 0) res.json({status: "KO", message: "Aucun utilisateur trouvé"});
-  // if (user.length >= 1) res.json({status: "OK", message: user});
   
 });
 
