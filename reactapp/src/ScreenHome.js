@@ -3,6 +3,7 @@ import './App.css';
 import { Redirect } from 'react-router-dom';
 import {Input,Button} from 'antd';
 import axios from 'axios';
+import {useDispatch} from 'react-redux';
 
 function ScreenHome() {
   const [signupUser, setSignupUser] = useState({username: "", email: "", password: ""})
@@ -12,6 +13,7 @@ function ScreenHome() {
   const [signinUserError, setSigninUserError] = useState("")
 
   const [isLogin, setIsLogin] = useState(false);
+  let dispatch = useDispatch();
   
   const signupHandleChange = ev => {
     setSignupUser({...signupUser, [ev.name]: ev.value})
@@ -30,6 +32,10 @@ function ScreenHome() {
           console.log("%c Binvenue", "color: green")
           console.log(res.data)
           setIsLogin(true);
+          dispatch({
+            type: "addInfo",
+            payload: res.data.message,
+          })
         } else {
           setSigninUserError(res.data.message);
 
@@ -45,7 +51,13 @@ function ScreenHome() {
       .then(res => {
         if (res.data.status === "OK") {
           console.log("%c Nouveau utilisateur enregistré", "color: green")
+          console.log("res.data: ", res.data.message)
           setIsLogin(true);
+          dispatch({
+            type: "addInfo",
+            payload: res.data.message,
+          })
+
         } else {
           console.log(res.data.message);
           setSignupUserError(res.data.message);
@@ -54,6 +66,7 @@ function ScreenHome() {
       })
       .catch(err => console.log(err))
   }
+
  
 
   return (

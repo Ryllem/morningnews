@@ -5,16 +5,19 @@ import { Card, Modal} from 'antd';
 import { ReadOutlined, LikeOutlined  } from '@ant-design/icons';
 import Nav from './Nav';
 import axios from 'axios';
+import {connect, useSelector} from 'react-redux';
 
 const { Meta } = Card;
 
 
-function ScreenArticlesBySource() {
+function ScreenArticlesBySource(props) {
 
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalIndex, setModalIndex] = useState(0);
-  console.log("%c RENDER", "color: red")
+
+  const userToken = useSelector(state =>  state.userToken)
+  
   const showModal = myIndex => {
     setIsModalVisible(true);
     setModalIndex(myIndex);
@@ -22,12 +25,10 @@ function ScreenArticlesBySource() {
   
   let { mysource } = useParams();
   const urlBySource = `https://newsapi.org/v2/top-headlines?sources=${mysource}&apiKey=27a05855f0eb408fb16627afd7d2e1b0`
-  console.log('mysource:', mysource)
 
   useEffect(() => {
     axios.get(urlBySource)
       .then(response => {
-        console.log(response.data.articles);
         setData(response.data.articles)
       }).catch(err => console.log(err))
   }, [])
@@ -50,7 +51,7 @@ function ScreenArticlesBySource() {
     actions={[
         <div className="containerFlex">
           <ReadOutlined style={{ fontSize: "25px"}} onClick={() => showModal(index)} />
-          <LikeOutlined style={{ fontSize: "25px"}} />
+          <LikeOutlined style={{ fontSize: "25px"}} onClick={() => props.addArticleClick({title: article.title, img: article.urlToImage, description: article.description, userToken})}/>
         </div>
         
     ]}
@@ -60,8 +61,6 @@ function ScreenArticlesBySource() {
       title={article.title}
       description={article.description}
     />
-
-      
 
   </Card>)
 })
@@ -85,4 +84,26 @@ function ScreenArticlesBySource() {
   );
 }
 
-export default ScreenArticlesBySource;
+
+function mapDispatchToProps(dispatch) {
+  return {
+  addArticleClick: function(info) { 
+  dispatch( {
+    type: 'addArticle',
+    payload: {title: info.title, content: info.description, img: info.img}
+  } ) 
+  },
+  onDecreaseClick: function() { 
+  dispatch( {type: 'decrease'} ) 
+  },
+  onResetClick: function() { 
+  dispatch( {type: 'reset'} ) 
+  },
+  }
+  }
+
+
+  export default connect(
+  null, 
+  mapDispatchToProps
+  )(ScreenArticlesBySource);
