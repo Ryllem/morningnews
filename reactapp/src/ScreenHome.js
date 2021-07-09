@@ -23,7 +23,7 @@ function ScreenHome() {
     setSigninUser({...signinUser, [ev.name]: ev.value})
   }
 
-  const sendSingin = () => {
+  const sendSingnin = () => {
     console.log("en mode signin", "color: green");
     if (signinUser.email !== "" && signinUser.password !== "") {
     axios.post('/signin', signinUser)
@@ -31,11 +31,11 @@ function ScreenHome() {
         if (res.data.status === "OK") {
           // console.log("%c Binvenue", "color: green")
           // console.log(res.data)
-          setIsLogin(true);
           dispatch({
             type: "addInfo",
             payload: res.data.message,
           })
+          setIsLogin(true);
         } else {
           setSigninUserError(res.data.message);
 
@@ -82,7 +82,7 @@ function ScreenHome() {
           <Input.Password className="Login-input" placeholder="password" name="password" value={signinUser.password} onChange={(ev) => signinHandleChange(ev.target)} />
           <p style={{ color: 'red', transform: "translate(0px, -10px)"}}>{signinUserError}</p>
 
-            <Button style={{width:'80px'}} type="primary" onClick={sendSingin}>Sign-in</Button>
+            <Button style={{width:'80px'}} type="primary" onClick={sendSingnin}>Sign-in</Button>
 
           </div>
 

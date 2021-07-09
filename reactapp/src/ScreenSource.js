@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react';
 import './App.css';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { List, Avatar} from 'antd';
 import Nav from './Nav';
 import axios from 'axios';
@@ -12,7 +12,7 @@ function ScreenSource(props) {
   //console.log('userprops:', props.user)
   const [data, setData] = useState([]);
   //const [isLogin, setIsLogin] = useState(false);
-  const token = useSelector(state => state.user.token)
+  // const token = useSelector(state => state.user.token)
   let langue = useSelector(state => state.user.language)
   if (langue === "en") langue = "gb";
   // console.log('langue:', langue)
@@ -33,28 +33,30 @@ function ScreenSource(props) {
 
   return (
     <div>
-        <Nav/>
-        
-       <div className="Banner"/>
-       <image src="./icon/flag_fr.png" alt="okkh" />
-       <div className="HomeThemes">
-          
-              <List
-                  itemLayout="horizontal"
-                  dataSource={data}
-                  renderItem={item => (
-                    <List.Item>
-                      <List.Item.Meta
-                        avatar={<Avatar src={`/images/${item.category}.png`} />}
-                        title={<Link to={`/screenarticlesbysource/${item.id}`}>{item.name}</Link>}
-                        description={item.title}
-                      />
-                    </List.Item>
-                  )}
-                />
-          </div>
-             
+      <Nav />
+
+      <div className="Banner" />
+      <image src="./icon/flag_fr.png" alt="okkh" />
+      <div className="HomeThemes">
+        <List
+          itemLayout="horizontal"
+          dataSource={data}
+          renderItem={(item) => (
+            <List.Item>
+              <List.Item.Meta
+                avatar={<Avatar src={`/images/${item.category}.png`} />}
+                title={
+                  <Link to={`/screenarticlesbysource/${item.id}`}>
+                    {item.name}
+                  </Link>
+                }
+                description={item.title}
+              />
+            </List.Item>
+          )}
+        />
       </div>
+    </div>
   );
 }
 

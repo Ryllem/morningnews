@@ -12,11 +12,14 @@ const { Meta } = Card;
 
 function ScreenArticlesBySource(props) {
 
+  const userToken = useSelector(state => state.user.token)
+  console.log('%c userToken:', "color: red", userToken)
+
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalIndex, setModalIndex] = useState(0);
 
-  const userToken = useSelector(state =>  state.userToken)
+  
   
   const showModal = myIndex => {
     setIsModalVisible(true);
@@ -88,10 +91,14 @@ function ScreenArticlesBySource(props) {
 function mapDispatchToProps(dispatch) {
   return {
   addArticleClick: function(info) { 
-  dispatch( {
-    type: 'addArticle',
-    payload: {title: info.title, content: info.description, img: info.img}
-  } ) 
+    axios.post("/wishlist", info)
+      .then(response => {
+        console.log('response API:', response);
+      })
+      .catch(err => console.log(err))
+  
+  
+    
   },
   onDecreaseClick: function() { 
   dispatch( {type: 'decrease'} ) 

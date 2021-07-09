@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import './App.css';
 import {Menu, Avatar} from 'antd';
 import { Link } from 'react-router-dom';
@@ -13,14 +13,6 @@ function Nav() {
 
   let dispatch = useDispatch();
   const user = useSelector(state => state.user)
-  // console.log('%c TOKEN:',"color: red", user.token)
-
-  /* useEffect(() => {
-    axios.delete("/wishlist/Élie Okobo rejoint l'Asvel", {token: 'ZCMtzHu7YhlZrrI1HgI1rVOV05Bzs8hr', title: "Élie Okobo rejoint l'Asvel"})
-      .then(response => {
-        console.log(response.data);
-      }).catch(err => console.log(err))
-  }, []) */
 
   const setLanguage = langue => {
     if (user.token !== null) {

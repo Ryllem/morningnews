@@ -11,7 +11,7 @@ function ScreenMyArticles(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalIndex, setModalIndex] = useState(0);
 
-  const [wishList, setWishList] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
 
   const showModal = (myIndex) => {
     setIsModalVisible(true);
@@ -19,8 +19,7 @@ function ScreenMyArticles(props) {
   };
 
 	const token = useSelector(state => state.user.token)
-
-	console.log(token);
+	
 
 	useEffect(() => {
 		const findWishList = async () => {
@@ -32,17 +31,16 @@ function ScreenMyArticles(props) {
 		})
 
 		const jsonData = await rawData.json()
-		// setWishList(jsonData.wishList)
+		setWishlist(jsonData)
 		console.log(jsonData);
 		}
 		findWishList()
-	}, [] );
+	},[] );
 
-
-  let { wishlist } = props;
+  
   let dispatch = useDispatch();
-  const result = useSelector(state =>  state.wishlist)
-  console.log(result)
+  // const result = useSelector(state =>  state.wishlist)
+  // console.log(result)
 
   const myWishlist = wishlist.map((list, index) => {
     return (
@@ -65,7 +63,7 @@ function ScreenMyArticles(props) {
           })} />,
         ]}
       >
-        <Meta title={list.title} description={list.content} />
+        <Meta title={list.title} description={list.description} />
       </Card>
     );
   });

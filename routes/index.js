@@ -17,7 +17,7 @@ router.post('/signin', async function(req, res, next) {
   const user = await userModel.findOne({
     email: req.body.email,
   })
-  console.log(user)
+  // console.log(user)
   
   if (user) {
   if (bcrypt.compareSync(req.body.password, user.password)) {
@@ -77,6 +77,7 @@ router.post('/setlanguage', async function(req, res, next) {
 /* POST savetowishlist page. */
 router.post('/wishlist', async function(req, res, next) {
   let userToSave = ""
+  console.log("REQ.BODY sur wishlist POST ",req.body)
   const user = await userModel.findOne({
     token: req.body.userToken
   })
@@ -110,13 +111,13 @@ router.delete('/wishlist/:title', async function(req, res, next) {
 /* POST get user wishlist page. */
 router.post('/getwishlist', async function(req, res, next) {
   let wishlist = [];
-  console.log("%c route getwishlist REQ.BODY", "color: teal", req.body)
+  // console.log("%c route getwishlist REQ.BODY", "color: teal", req.body)
   const user = await userModel.findOne({
     token: req.body.token
   })
   if (user !== null) {
     wishlist = user.wishlist;
-    console.log(wishlist)
+    // console.log(wishlist)
   }
   res.send(wishlist);
 });
