@@ -34,6 +34,7 @@ function ScreenArticlesBySource(props) {
       .then(response => {
         setData(response.data.articles)
       }).catch(err => console.log(err))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const articles = data.map( (article, index) => {

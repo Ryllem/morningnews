@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import { Card, Modal } from "antd";
 import Nav from "./Nav";
-import { connect, useSelector, useDispatch } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { DeleteOutlined, ReadOutlined } from "@ant-design/icons";
+import axios from 'axios';
 
 const { Meta } = Card;
 
@@ -35,12 +36,20 @@ function ScreenMyArticles(props) {
 		console.log(jsonData);
 		}
 		findWishList()
-	},[] );
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	},[wishlist.length] );
 
-  
-  let dispatch = useDispatch();
-  // const result = useSelector(state =>  state.wishlist)
-  // console.log(result)
+
+  const deleteArticle = (title) => {
+    axios.delete(`/wishlist/${token}/${title}`)
+      .then(response => {
+        console.log('response API for Delete:', response);
+        setWishlist(response.data.wishlist)
+
+      }).catch(err => console.log(err))
+    
+    
+  }
 
   const myWishlist = wishlist.map((list, index) => {
     return (
@@ -57,10 +66,7 @@ function ScreenMyArticles(props) {
         actions={[
           <ReadOutlined onClick={() => showModal(index)}/>,
           // <DeleteOutlined onClick={() => props.deleteArticle(list.title)} />,
-          <DeleteOutlined onClick={() => dispatch({
-            type: "removeArticle",
-            payload: list.title,
-          })} />,
+          <DeleteOutlined onClick={() => deleteArticle(list.title)} />,
         ]}
       >
         <Meta title={list.title} description={list.description} />
