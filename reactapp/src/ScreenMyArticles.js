@@ -5,12 +5,19 @@ import Nav from "./Nav";
 import { connect, useSelector } from "react-redux";
 import { DeleteOutlined, ReadOutlined } from "@ant-design/icons";
 import axios from 'axios';
+import {Redirect} from 'react-router-dom';
 
 const { Meta } = Card;
 
 function ScreenMyArticles(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalIndex, setModalIndex] = useState(0);
+  const [isLogin, setIsLogin] = useState(true);
+
+  const token = useSelector(state => state.user.token)
+  const language = useSelector(state => state.user.language)
+  
+  if ((token === null || token === undefined) && isLogin === true) setIsLogin(false)
 
   const [wishlist, setWishlist] = useState([]);
 
@@ -18,8 +25,6 @@ function ScreenMyArticles(props) {
     setIsModalVisible(true);
     setModalIndex(myIndex);
   };
-
-	const token = useSelector(state => state.user.token)
 	
 
 	useEffect(() => {
@@ -50,8 +55,10 @@ function ScreenMyArticles(props) {
     
     
   }
-
-  const myWishlist = wishlist.map((list, index) => {
+  console.log('language:', language)
+  console.log('wishlist:', wishlist)
+  const myWishlistFiltered = wishlist.filter( list => list.language === language);
+  const myWishlist = myWishlistFiltered.map((list, index) => {
     return (
       <Card
         key={index}
@@ -80,7 +87,7 @@ function ScreenMyArticles(props) {
 
       <div className="Banner" />
       <div className="Card">
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center", flexWrap: 'wrap' }}>
           {myWishlist.length === 0 ? (
             <h1 style={{ color: "teal" }}>Aucun article liké</h1>
           ) : (
@@ -96,6 +103,7 @@ function ScreenMyArticles(props) {
       >
         <p>{wishlist[modalIndex] ? wishlist[modalIndex].content : ""}</p>
       </Modal>
+      {isLogin ? null : <Redirect to="/" />}
     </div>
   );
 }

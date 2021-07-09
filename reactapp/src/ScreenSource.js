@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react';
 import './App.css';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { List, Avatar} from 'antd';
 import Nav from './Nav';
 import axios from 'axios';
@@ -11,12 +11,15 @@ import {useSelector,connect} from 'react-redux';
 function ScreenSource(props) {
   //console.log('userprops:', props.user)
   const [data, setData] = useState([]);
-  //const [isLogin, setIsLogin] = useState(false);
-  // const token = useSelector(state => state.user.token)
+  const [isLogin, setIsLogin] = useState(true);
+  
+  const token = useSelector(state => state.user.token)
   let langue = useSelector(state => state.user.language)
+  
   if (langue === "en") langue = "gb";
   // console.log('langue:', langue)
-  //if (token !== null && isLogin === false) setIsLogin(true);
+
+  if ((token === null || token === undefined) && isLogin === true) setIsLogin(false);
 
   
 
@@ -57,6 +60,7 @@ function ScreenSource(props) {
           )}
         />
       </div>
+      {isLogin ? null : <Redirect to="/" />}
     </div>
   );
 }

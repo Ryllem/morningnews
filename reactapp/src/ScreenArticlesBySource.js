@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
-import { useParams } from "react-router-dom";
+import { useParams, Redirect } from "react-router-dom";
 import { Card, Modal} from 'antd';
 import { ReadOutlined, LikeOutlined  } from '@ant-design/icons';
 import Nav from './Nav';
@@ -18,6 +18,12 @@ function ScreenArticlesBySource(props) {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalIndex, setModalIndex] = useState(0);
+  const [isLogin, setIsLogin] = useState(true);
+
+  const token = useSelector(state => state.user.token)
+  const language = useSelector(state => state.user.language)
+  console.log('token:', token)
+  if ((token === null || token === undefined) && isLogin === true) setIsLogin(false)
 
   
   
@@ -55,7 +61,7 @@ function ScreenArticlesBySource(props) {
     actions={[
         <div className="containerFlex">
           <ReadOutlined style={{ fontSize: "25px"}} onClick={() => showModal(index)} />
-          <LikeOutlined style={{ fontSize: "25px"}} onClick={() => props.addArticleClick({title: article.title, img: article.urlToImage, description: article.description, userToken})}/>
+          <LikeOutlined style={{ fontSize: "25px"}} onClick={() => props.addArticleClick({title: article.title, img: article.urlToImage, description: article.description, userToken, language})}/>
         </div>
         
     ]}
@@ -84,6 +90,7 @@ function ScreenArticlesBySource(props) {
            <Modal title={data[modalIndex] ? data[modalIndex].title : ""} visible={isModalVisible} onOk={() => setIsModalVisible(false)} onCancel={() => setIsModalVisible(false)}>
               <p>{data[modalIndex] ? data[modalIndex].description : ""}</p>
           </Modal>
+          {isLogin ? null : <Redirect to="/" />}
     </div>
   );
 }
