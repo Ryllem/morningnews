@@ -74,7 +74,7 @@ router.post('/setlanguage', async function(req, res, next) {
   res.json({status: "OK", message: send});
 })
 
-/* POST wishlist page. */
+/* POST savetowishlist page. */
 router.post('/wishlist', async function(req, res, next) {
   let userToSave = ""
   const user = await userModel.findOne({
@@ -90,6 +90,35 @@ router.post('/wishlist', async function(req, res, next) {
   res.send(userToSave);
 });
 
+/* DELETE delete from wishlist page. */
+router.delete('/wishlist/:title', async function(req, res, next) {
+  console.log("%c route deletewishlist REQ.BODY", "color: teal", req.params)
+  let wishlistToSave = "RAS"
+  const user = await userModel.findOne({
+    token: req.body.token
+  })
+  userToSave = user;
+  if (user !== null) {
+    user.wishlist = user.wishlist.filter(wish => wish.title !== req.body.title)
+    wishlistToSave = await user.save();
+    console.log(wishlistToSave)
+  }
+  
+  res.send(wishlistToSave);
+});
 
+/* POST get user wishlist page. */
+router.post('/getwishlist', async function(req, res, next) {
+  let wishlist = [];
+  console.log("%c route getwishlist REQ.BODY", "color: teal", req.body)
+  const user = await userModel.findOne({
+    token: req.body.token
+  })
+  if (user !== null) {
+    wishlist = user.wishlist;
+    console.log(wishlist)
+  }
+  res.send(wishlist);
+});
 
 module.exports = router;
