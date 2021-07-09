@@ -48,7 +48,7 @@ h4 {
 
 .Banner {
   height: 80px;
-  background-image: url("http://localhost:3000/public/images/flat01.png");
+  background-image: url("http://localhost:3000/images/flat01.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
