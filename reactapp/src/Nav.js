@@ -13,7 +13,7 @@ function Nav() {
 
   let dispatch = useDispatch();
   const user = useSelector(state => state.user)
-  console.log('%c TOKEN:',"color: red", user.token)
+  // console.log('%c TOKEN:',"color: red", user.token)
 
   const setLanguage = langue => {
     if (user.token !== null) {

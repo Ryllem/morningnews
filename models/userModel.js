@@ -5,7 +5,8 @@ username: {type: String, required: [true, "Merci de saisir un 'username'"], minL
 email: {type: String, required: [true, "Merci de saisir un email"], unique: true},
 password: {type: String, required: [true, "Merci de saisir un mot de passe"], minLength: [4, "le mot de passe doit contenir 4 caractères minimum"]},
 token: String,
-language: String
+language: String,
+wishlist: Array
 })
 let userModel = mongoose.model('users', userSchema);
 

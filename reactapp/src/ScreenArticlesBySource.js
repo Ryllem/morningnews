@@ -16,7 +16,9 @@ function ScreenArticlesBySource(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalIndex, setModalIndex] = useState(0);
 
-  const userToken = useSelector(state =>  state.userToken)
+  const userToken = useSelector(state =>  state.user.token)
+  const langue = useSelector(state =>  state.user.language)
+  console.log('userToken:', langue)
   
   const showModal = myIndex => {
     setIsModalVisible(true);
@@ -51,7 +53,7 @@ function ScreenArticlesBySource(props) {
     actions={[
         <div className="containerFlex">
           <ReadOutlined style={{ fontSize: "25px"}} onClick={() => showModal(index)} />
-          <LikeOutlined style={{ fontSize: "25px"}} onClick={() => props.addArticleClick({title: article.title, img: article.urlToImage, description: article.description, userToken})}/>
+          <LikeOutlined style={{ fontSize: "25px"}} onClick={() => props.addArticleClick({title: article.title, img: article.urlToImage, description: article.description, userToken, langue})}/>
         </div>
         
     ]}
@@ -88,10 +90,18 @@ function ScreenArticlesBySource(props) {
 function mapDispatchToProps(dispatch) {
   return {
   addArticleClick: function(info) { 
-  dispatch( {
-    type: 'addArticle',
-    payload: {title: info.title, content: info.description, img: info.img}
-  } ) 
+    console.log('info:', info)
+    axios.post('/wishlist', info)
+      .then(response => {
+        console.log('response du backend:', response);
+        dispatch( {
+          type: 'addArticle',
+          payload: info
+        } ) 
+      })
+      .catch(err => console.log(err))
+
+  
   },
   onDecreaseClick: function() { 
   dispatch( {type: 'decrease'} ) 

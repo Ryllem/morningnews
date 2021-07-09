@@ -16,7 +16,6 @@ router.get('/', function(req, res, next) {
 router.post('/signin', async function(req, res, next) {
   const user = await userModel.findOne({
     email: req.body.email,
-    //password: req.body.password
   })
   console.log(user)
   
@@ -74,6 +73,22 @@ router.post('/setlanguage', async function(req, res, next) {
   const send = await user.save();
   res.json({status: "OK", message: send});
 })
+
+/* POST wishlist page. */
+router.post('/wishlist', async function(req, res, next) {
+  let userToSave = ""
+  const user = await userModel.findOne({
+    token: req.body.userToken
+  })
+  userToSave = user;
+  if (user !== null) {
+    user.wishlist.push(req.body);
+    userToSave = await user.save();
+    console.log(userToSave)
+  }
+  
+  res.send(userToSave);
+});
 
 
 

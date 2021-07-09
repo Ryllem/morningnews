@@ -16,10 +16,10 @@ function ScreenMyArticles(props) {
     setModalIndex(myIndex);
   };
 
-  let { wishlist } = props;
+  let { wishlist} = props; // destructuring => props.wishlist equivalent "let wishlist = props.wishlist"
   let dispatch = useDispatch();
   const result = useSelector(state =>  state.wishlist)
-  console.log(result)
+  console.log("wishlist du store", result)
 
   const myWishlist = wishlist.map((list, index) => {
     return (
@@ -42,7 +42,7 @@ function ScreenMyArticles(props) {
           })} />,
         ]}
       >
-        <Meta title={list.title} description={list.content} />
+        <Meta title={list.title} description={list.description} />
       </Card>
     );
   });
@@ -67,7 +67,7 @@ function ScreenMyArticles(props) {
         onOk={() => setIsModalVisible(false)}
         onCancel={() => setIsModalVisible(false)}
       >
-        <p>{wishlist[modalIndex] ? wishlist[modalIndex].content : ""}</p>
+        <p>{wishlist[modalIndex] ? wishlist[modalIndex].description : ""}</p>
       </Modal>
     </div>
   );

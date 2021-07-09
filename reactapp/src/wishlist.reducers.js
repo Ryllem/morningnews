@@ -1,6 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 
 export default function(wishlist = [], action) {
+    console.log(action.payload)
     if(action.type === 'addArticle') {
         let newtab = [...wishlist];
         const checkUnique  = newtab.some(check => check.title === action.payload.title);
