@@ -100,7 +100,7 @@ function ScreenHome() {
             <Button style={{width:'80px'}} type="primary" onClick={sendSingup}>Sign-up</Button>
 
           </div>
-          {isLogin ? <Redirect to="/screensource" /> : <Redirect to="/" />}
+          {isLogin ? <Redirect to="/screenmyarticles" /> : <Redirect to="/" />}
       </div>
   );
 }
